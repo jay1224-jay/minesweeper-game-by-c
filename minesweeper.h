@@ -29,7 +29,17 @@
 //        1        2        0
 //
 
+
+
+struct position {
+    int x;
+    int y;
+} ;
+
+
+typedef struct position pos;
 typedef int map_type[COLUMNS][RAWS][2];
+
 
 int map[COLUMNS][RAWS][2];
 
@@ -38,6 +48,7 @@ int number_of_near_bombs(int x, int y, map_type map);
 void activate(int x, int y, map_type map);
 void activate_all( map_type map );
 int check_win( map_type map );
+int near_pos( pos curr_pos , pos pos_arr[]);
 
 
 void show_map(map_type map) {
@@ -173,5 +184,88 @@ int check_win( map_type map ) {
     }
 
     return 1; // win
+
+}
+
+
+int near_pos( pos curr_pos, pos pos_arr[]) {
+    
+    pos add_pos;
+    int index = 0;
+
+    if ( (curr_pos.y-1) >= 0 ) {
+        // 1
+        if ( (curr_pos.x-1) >= 0 ) {
+            add_pos.x = curr_pos.x - 1;
+            add_pos.y = curr_pos.y - 1;
+            pos_arr[index] = add_pos;
+            index++;
+        }
+            
+        // 2
+
+        add_pos.x = curr_pos.x;
+        add_pos.y = curr_pos.y - 1;
+        pos_arr[index] = add_pos;
+        index++;
+
+
+            // 3
+        if ( (curr_pos.x+1) < RAWS) {
+
+            add_pos.x = curr_pos.x + 1;
+            add_pos.y = curr_pos.y - 1;
+            pos_arr[index] = add_pos;
+            index++;
+
+        }
+    }
+
+        // 4
+    if ( (curr_pos.x-1) >= 0 ) {
+
+        add_pos.x = curr_pos.x - 1;
+        add_pos.y = curr_pos.y;
+        pos_arr[index] = add_pos;
+        index++;
+    }
+
+    // 5
+    if ( (curr_pos.x+1) < RAWS ) {
+
+        add_pos.x = curr_pos.x + 1;
+        add_pos.y = curr_pos.y;
+        pos_arr[index] = add_pos;
+        index++;
+    }
+
+
+    if ( (curr_pos.y+1) < COLUMNS ) {
+        // 6
+        if ( (curr_pos.x-1) >= 0 ) { 
+            add_pos.x = curr_pos.x - 1;
+            add_pos.y = curr_pos.y + 1;
+            pos_arr[index] = add_pos;
+            index++;
+        }
+
+        // 7
+
+        add_pos.x = curr_pos.x;
+        add_pos.y = curr_pos.y + 1;
+        pos_arr[index] = add_pos;
+        index++;
+
+        // 8
+        if ( (curr_pos.x+1) < RAWS) {
+
+            add_pos.x = curr_pos.x + 1;
+            add_pos.y = curr_pos.y + 1;
+            pos_arr[index] = add_pos;
+            index++;
+        }
+    }
+
+    return index;
 
 }
