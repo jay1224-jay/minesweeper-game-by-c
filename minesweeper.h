@@ -10,8 +10,8 @@
  * 
 */
 
-#define RAWS    20
-#define COLUMNS 20
+#define RAWS    4
+#define COLUMNS 4
 
 // color
 #define KNRM  "\x1B[0m"

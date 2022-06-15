@@ -2,3 +2,5 @@
 this haven't done yet
 
 a minesweeper game by C .play in command-line
+
+![Alt Text](mine.gif)
