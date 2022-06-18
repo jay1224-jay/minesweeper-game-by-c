@@ -66,8 +66,12 @@ how to play:\n\
 
     for (int y=0;y<COLUMNS;y++) {
         for (int x=0;x<RAWS;x++) {
-            if ( map[y][x][0] == 0  ) 
-                map[y][x][0] = number_of_near_bombs(x, y, map);
+            if ( map[y][x][0] == 0  ) {
+                pos curr;
+                curr.x = x;
+                curr.y = y;
+                map[y][x][0] = number_of_near_bombs(curr, map);
+            }
         }
     }
 
@@ -111,17 +115,17 @@ how to play:\n\
 
         show_map(map);
 
-        int input_x,   input_y;
+        pos user_p;
         char mode;  // 'a' for activate and 'f' for flag
 
         printf("where and mode: ");
-        scanf("%d %d %c", &input_x, &input_y, &mode);
+        scanf("%d %d %c", &(user_p.x), &(user_p.y), &mode);
 
         switch ( mode ) {
 
             case 'a':
         
-                if ( map[input_y][input_x][0] == -1) { // current posion is bomb
+                if ( map[user_p.y][user_p.x][0] == -1) { // current posion is bomb
                     system("clear");
                     printf("you just activate a bomb!\n");
 
@@ -134,11 +138,11 @@ how to play:\n\
 
                 }
 
-                activate(input_x, input_y, map);
+                activate(user_p, map);
                 break; // stop case 'a'
 
             case 'f':
-                flag(input_x, input_y, map);
+                flag(user_p, map);
                 break;
 
             default:

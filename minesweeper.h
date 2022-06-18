@@ -44,11 +44,12 @@ typedef int map_type[COLUMNS][RAWS][2];
 int map[COLUMNS][RAWS][2];
 
 void show_map( map_type map );
-int number_of_near_bombs(int x, int y, map_type map);
-void activate(int x, int y, map_type map);
+int number_of_near_bombs(pos curr, map_type map);
+void activate(pos curr, map_type map);
 void activate_all( map_type map );
 int check_win( map_type map );
 int near_pos( pos curr_pos , pos pos_arr[]);
+void flag( pos curr, map_type map);
 
 
 void show_map(map_type map) {
@@ -94,68 +95,43 @@ relative postion:
 curr_pos = (x, y)
 */
 
-int number_of_near_bombs(int x, int y, map_type map) {
+int number_of_near_bombs(pos curr, map_type map) {
 
 
-    int number = 0;
+    int number = 0, index=0;
+    pos pos_arr[8];
 
-    if ( (y-1) >= 0 ) {
-        // 1
-        if ( (x-1) >= 0 ) {
-            if ( map[y-1][x-1][0] == -1)
-                number++;
-        }
-            
-            // 2
-        if ( map[y-1][x][0] == -1)
-            number++;
+    index = near_pos( curr, pos_arr );
 
-            // 3
-        if ( (x+1) < RAWS) {
-
-            if ( map[y-1][x+1][0] == -1)
-                number++;
-        }
-    }
-
-        // 4
-    if ( (x-1) >= 0 ) {
-        if ( map[y][x-1][0] == -1)
+    for (int i=0;i<index;i++) {
+        pos neighbor = pos_arr[i];
+        if ( map[neighbor.y][neighbor.x][0] == -1 )
             number++;
     }
-
-    // 5
-    if ( (x+1) < RAWS ) {
-        if ( map[y][x+1][0] == -1)
-            number++;
-    }
-
-
-    if ( (y+1) < COLUMNS ) {
-        // 6
-        if ( (x-1) >= 0 ) { 
-            if ( map[y+1][x-1][0] == -1)
-                number++;
-        }
-
-        // 7
-        if ( map[y+1][x][0] == -1)
-            number++;
-
-        // 8
-        if ( (x+1) < RAWS) {
-            if ( map[y+1][x+1][0] == -1)
-                number++;
-        }
-    }
-
+      
 
     return number;
 
 }
 
-void activate(int x, int y, map_type map) {
-    map[y][x][1] = 1;
+void activate(pos curr, map_type map) {
+    map[curr.y][curr.x][1] = 1;
+    if ( map[curr.y][curr.x][0] != 0 )
+        return;
+
+    pos pos_arr[8];
+    int index;
+
+    index = near_pos( curr, pos_arr );
+
+    for (int i = 0;i<index;i++) {
+        pos neighbor = pos_arr[i];
+
+        if ( map[neighbor.y][neighbor.x][1] == 0)
+            activate( neighbor , map);
+    }
+    return;
+
 }
 
 void activate_all( map_type map ) {
@@ -166,8 +142,8 @@ void activate_all( map_type map ) {
     }
 }
 
-void flag( int x, int y, map_type map ) {
-    map[y][x][1] = 2; // flag mode
+void flag( pos curr, map_type map ) {
+    map[curr.y][curr.x][1] = 2; // flag mode
 }
 
 
