@@ -10,8 +10,8 @@
  * 
 */
 
-#define RAWS    4
-#define COLUMNS 4
+#define RAWS    9
+#define COLUMNS 9
 
 // color
 #define KNRM  "\x1B[0m"
@@ -43,16 +43,16 @@ typedef int map_type[COLUMNS][RAWS][2];
 
 int map[COLUMNS][RAWS][2];
 
-void show_map( map_type map );
-int number_of_near_bombs(pos curr, map_type map);
-void activate(pos curr, map_type map);
-void activate_all( map_type map );
-int check_win( map_type map );
+void show_map();
+int number_of_near_bombs(pos curr);
+void activate(pos curr);
+void activate_all();
+int check_win();
 int near_pos( pos curr_pos , pos pos_arr[]);
-void flag( pos curr, map_type map);
+void flag( pos curr);
 
 
-void show_map(map_type map) {
+void show_map() {
 
     printf("    ");
     for (int index_x=0;index_x<RAWS;index_x++) {
@@ -95,7 +95,7 @@ relative postion:
 curr_pos = (x, y)
 */
 
-int number_of_near_bombs(pos curr, map_type map) {
+int number_of_near_bombs(pos curr) {
 
 
     int number = 0, index=0;
@@ -114,7 +114,7 @@ int number_of_near_bombs(pos curr, map_type map) {
 
 }
 
-void activate(pos curr, map_type map) {
+void activate(pos curr) {
     map[curr.y][curr.x][1] = 1;
     if ( map[curr.y][curr.x][0] != 0 )
         return;
@@ -128,13 +128,13 @@ void activate(pos curr, map_type map) {
         pos neighbor = pos_arr[i];
 
         if ( map[neighbor.y][neighbor.x][1] == 0)
-            activate( neighbor , map);
+            activate( neighbor );
     }
     return;
 
 }
 
-void activate_all( map_type map ) {
+void activate_all(  ) {
 
     for (int y=0;y<COLUMNS;y++) {
         for (int x=0;x<RAWS;x++)
@@ -142,14 +142,14 @@ void activate_all( map_type map ) {
     }
 }
 
-void flag( pos curr, map_type map ) {
+void flag( pos curr ) {
     map[curr.y][curr.x][1] = 2; // flag mode
 }
 
 
 // the condition of win:  all of not bombs are activated
 
-int check_win( map_type map ) {
+int check_win( ) {
 
     for (int y=0;y<COLUMNS;y++) {
         for (int x=0;x<RAWS;x++) {

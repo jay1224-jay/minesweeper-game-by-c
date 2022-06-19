@@ -70,7 +70,7 @@ how to play:\n\
                 pos curr;
                 curr.x = x;
                 curr.y = y;
-                map[y][x][0] = number_of_near_bombs(curr, map);
+                map[y][x][0] = number_of_near_bombs(curr);
             }
         }
     }
@@ -113,7 +113,7 @@ how to play:\n\
 
         
 
-        show_map(map);
+        show_map();
 
         pos user_p;
         char mode;  // 'a' for activate and 'f' for flag
@@ -131,18 +131,18 @@ how to play:\n\
 
                     // activate all
 
-                    activate_all( map );
-                    show_map(map);
+                    activate_all(  );
+                    show_map();
                     
                     return 0; // end this game
 
                 }
 
-                activate(user_p, map);
+                activate(user_p);
                 break; // stop case 'a'
 
             case 'f':
-                flag(user_p, map);
+                flag(user_p);
                 break;
 
             default:
@@ -152,9 +152,9 @@ how to play:\n\
         }
 
         if ( check_win(map) ) {
-            activate_all(map);
+            activate_all();
             puts("");
-            show_map(map);
+            show_map();
             puts("");
             printf(" ======== you win ========\n");
             return 0;
