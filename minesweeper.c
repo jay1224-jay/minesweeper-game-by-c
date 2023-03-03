@@ -10,14 +10,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "minesweeper.h"
+#include "common.h"
+// #include "minesweeper.h"
 
+int map[COLUMNS][ROWS][2];
 
 int main() {
 
     printf(KWHT);
 
-    system("clear");
+    clear();
 
     printf("This is a minesweeper game by jay(or wuj).\n \
 how to play:\n\
@@ -38,18 +40,18 @@ how to play:\n\
     printf("how many bombs do you want: ");
     scanf("%d", &number_bombs);
 
-    if (number_bombs > COLUMNS * RAWS) {
-        printf("too large number! must be smaller than %d * %d!\n", COLUMNS, RAWS);
+    if (number_bombs > COLUMNS * ROWS) {
+        printf("too large number! must be smaller than %d * %d!\n", COLUMNS, ROWS);
         return 0;
     }
 
-    system("clear");
+    clear();
     
     // plant bombs
     int b=0;
     srand(time(0));
     while ( b < number_bombs ) {
-        int rand_x = rand() % RAWS; // 0~8
+        int rand_x = rand() % ROWS; // 0~8
 
         int rand_y = rand() % COLUMNS;
 
@@ -65,7 +67,7 @@ how to play:\n\
 
 
     for (int y=0;y<COLUMNS;y++) {
-        for (int x=0;x<RAWS;x++) {
+        for (int x=0;x<ROWS;x++) {
             if ( map[y][x][0] == 0  ) {
                 pos curr;
                 curr.x = x;
@@ -105,10 +107,35 @@ how to play:\n\
     puts("");
 
     for (int y=0;y<COLUMNS;y++) {
-        for (int x=0;x<RAWS;x++)
+        for (int x=0;x<ROWS;x++)
             *ptr_map[y][x][1] = 0;
     } */
 
+    int times = 0;
+
+
+    while (1) {
+        ai();
+        if ( check_win(map) ) {
+            activate_all();
+            puts("");
+            show_map();
+            puts("\n ===== AI ===== ");
+            puts("");
+            printf(" ======== you win ========\n");
+            break;
+            // return 0;
+        }
+
+        if ( ++times > 10 ) {
+            printf("\n=============================================\n sorry, impossible to solve without guessing\n=============================================\n\n");
+            break;
+        }
+
+    }
+
+
+    /*
     while (1) {
 
         
@@ -126,7 +153,7 @@ how to play:\n\
             case 'a':
         
                 if ( map[user_p.y][user_p.x][0] == -1) { // current posion is bomb
-                    system("clear");
+                    clear();
                     printf("you just activate a bomb!\n");
 
                     // activate all
@@ -160,9 +187,10 @@ how to play:\n\
             return 0;
         }
 
-        system("clear");
+        clear();
 
     }
+    */
 
 
     return 1;

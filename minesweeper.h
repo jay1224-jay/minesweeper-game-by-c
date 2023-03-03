@@ -10,8 +10,14 @@
  * 
 */
 
-#define RAWS    9
+
+#ifndef MINESWEEPERH
+#define MINESWEEPERH
+
+#define ROWS    9
 #define COLUMNS 9
+
+#define clear() system("clear")
 
 // color
 #define KNRM  "\x1B[0m"
@@ -22,6 +28,12 @@
 #define KMAG  "\x1B[35m"
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
+
+
+
+#define ACTIVATE 1
+#define FLAG     2
+#define NOT      0
 
 // number
 // [3, 0]
@@ -38,10 +50,10 @@ struct position {
 
 
 typedef struct position pos;
-typedef int map_type[COLUMNS][RAWS][2];
+typedef int map_type[COLUMNS][ROWS][2];
 
 
-int map[COLUMNS][RAWS][2];
+int map[COLUMNS][ROWS][2];
 
 void show_map();
 int number_of_near_bombs(pos curr);
@@ -51,11 +63,11 @@ int check_win();
 int near_pos( pos curr_pos , pos pos_arr[]);
 void flag( pos curr);
 
-
+/*
 void show_map() {
 
     printf("    ");
-    for (int index_x=0;index_x<RAWS;index_x++) {
+    for (int index_x=0;index_x<ROWS;index_x++) {
         printf("%2d ", index_x);
     }
     puts("");
@@ -64,7 +76,7 @@ void show_map() {
 
         printf(" %2d ", y);
 
-        for (int x=0;x<RAWS;x++) {
+        for (int x=0;x<ROWS;x++) {
             if ( map[y][x][1] == 1 ) {
                 if ( map[y][x][0] == -1) { 
                     printf( KGRN "%2d " KWHT, -1);
@@ -72,7 +84,7 @@ void show_map() {
                 }
                 printf( KWHT "%2d " KWHT , map[y][x][0]);
             } else if ( map[y][x][1] == 2 ) {
-                printf( KBLU " F " KWHT );
+                printf( KRED " F " KWHT );
             } else {
                 printf( KWHT " - " KWHT );
             }
@@ -84,7 +96,7 @@ void show_map() {
 }
 
 
-/*
+
 
 relative postion:
     -1  0  1
@@ -93,7 +105,7 @@ relative postion:
   1  6  7  8
 
 curr_pos = (x, y)
-*/
+
 
 int number_of_near_bombs(pos curr) {
 
@@ -115,7 +127,7 @@ int number_of_near_bombs(pos curr) {
 }
 
 void activate(pos curr) {
-    map[curr.y][curr.x][1] = 1;
+    map[curr.y][curr.x][1] = ACTIVATE;
     if ( map[curr.y][curr.x][0] != 0 )
         return;
 
@@ -137,7 +149,7 @@ void activate(pos curr) {
 void activate_all(  ) {
 
     for (int y=0;y<COLUMNS;y++) {
-        for (int x=0;x<RAWS;x++)
+        for (int x=0;x<ROWS;x++)
             map[y][x][1] = 1;
     }
 }
@@ -152,7 +164,7 @@ void flag( pos curr ) {
 int check_win( ) {
 
     for (int y=0;y<COLUMNS;y++) {
-        for (int x=0;x<RAWS;x++) {
+        for (int x=0;x<ROWS;x++) {
             if (map[y][x][0] != -1 && map[y][x][1] == 0) { // 0 means not activated
                 return 0; // not yet win
             }
@@ -187,7 +199,7 @@ int near_pos( pos curr_pos, pos pos_arr[]) {
 
 
             // 3
-        if ( (curr_pos.x+1) < RAWS) {
+        if ( (curr_pos.x+1) < ROWS) {
 
             add_pos.x = curr_pos.x + 1;
             add_pos.y = curr_pos.y - 1;
@@ -207,7 +219,7 @@ int near_pos( pos curr_pos, pos pos_arr[]) {
     }
 
     // 5
-    if ( (curr_pos.x+1) < RAWS ) {
+    if ( (curr_pos.x+1) < ROWS ) {
 
         add_pos.x = curr_pos.x + 1;
         add_pos.y = curr_pos.y;
@@ -233,7 +245,7 @@ int near_pos( pos curr_pos, pos pos_arr[]) {
         index++;
 
         // 8
-        if ( (curr_pos.x+1) < RAWS) {
+        if ( (curr_pos.x+1) < ROWS) {
 
             add_pos.x = curr_pos.x + 1;
             add_pos.y = curr_pos.y + 1;
@@ -245,3 +257,8 @@ int near_pos( pos curr_pos, pos pos_arr[]) {
     return index;
 
 }
+
+*/
+
+
+#endif
